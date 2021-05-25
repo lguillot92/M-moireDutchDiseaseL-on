@@ -11,4 +11,7 @@ merge 1:1 customs_region year using ExpManufFD
 drop if _merge !=3
 egen panel_id=group(customs_region)
 xtset panel_id year
-xtreg expfd fdreexp year, fe
+xtreg expfd fdreexp i.panel_id#c.year year, fe cluster (panel_id)
+gen lexp=log(exptot)
+gen lreexp=log(reexptot)
+xtreg lexp lreexp year i.panel_id#c.year year, fe cluster (panel_id)

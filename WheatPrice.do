@@ -1,16 +1,16 @@
-use "C:\Users\leong\Desktop\MEMOIRE\Données\WheatPrices.dta", clear
-/*ds Year, not
-foreach i in `r(varlist)' {
-ren `i' Market`i'
-}
-gen id=_n
-reshape long Market, i(id) j(Place, string)
-ren Market Price
-drop id
-sort Place Year
-egen miss = rowmiss(Year Price)
-drop if miss==1
-drop miss*/
-gen lPrice=log(Price)
+use "C:\Users\leong\Desktop\MEMOIRE\Données\WheatPricesMerged+ImpGrain.dta", clear
 tab Province, gen(p)
-reg lPrice Year p1-p18 (p1-p18)#c.Year
+tab panel_id, gen(pp)
+xtset panel_id year
+gen limpgrain=log(impgrain)
+foreach var of varlist lreexp year lPrice {
+egen mean`var' = mean(`var'), by(panel_id)
+}
+egen meanlimpgrain=mean(limpgrain), by(panel_id)
+gen war=1 if year<=1715
+replace war=1 if (year>=1744&year<=1748)
+replace war=1 if (year>=1756&year<=1763)
+replace war=1 if (year>=1775&year<=1781)
+replace war=0 if war==.
+reg lPrice year meanyear trsptot war limpgrain meanlimpgrain meanlPrice lreexp meanlreexp c.lreexp#c.InvDis c.meanlreexp#c.InvDis
+reg lPrice year p1-p17 lreexp trsptot war limpgrain c.lreexp#c.InvDis

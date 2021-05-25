@@ -1,5 +1,6 @@
 cd "C:\Users\leong\Desktop\MEMOIRE\Données"
 use Database, clear
+keep if source_type=="Local"
 keep if product_re_aggregate=="Objets manufacturés"
 egen exptot = sum(value), by(customs_region year export_import)
 collapse exptot, by(customs_region year export_import)

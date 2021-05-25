@@ -13,7 +13,7 @@ drop if _merge !=3
 drop _merge
 merge 1:m customs_region year using RéexportationsFD
 gen war=1 if year<=1715
-replace war=1 if (year>=1744&year<=1748)
+replace war=1 if (year>=1740&year<=1748)
 replace war=1 if (year>=1756&year<=1763)
 replace war=1 if (year>=1775&year<=1781)
 replace war=0 if war==.
