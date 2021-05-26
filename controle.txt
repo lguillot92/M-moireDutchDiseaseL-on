@@ -1,4 +1,0 @@
-Utiliser variables occupation en interaction.
-
-log(SALAIRES) = Constante + I(année) + I(profession) + I(genre) + I(nourri / pas)
-soit ceteris paribus.
